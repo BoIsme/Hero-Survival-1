@@ -1,22 +1,33 @@
 using UnityEngine;
-
 public class Player : MonoBehaviour
 {
-    public GameObject Sword;
-    public Transform pointSword;
+    private CharacterFactory characterFactory;
 
-    private InputMoveHero inputMoveHero; // Thêm một trường inputMoveHero
+    private WeaponFactory weaponFactory;
 
-    void Start()
+    public Player()
     {
-        inputMoveHero = FindObjectOfType<InputMoveHero>(); // Tìm đối tượng InputMoveHero trong scene
+        characterFactory = new CharacterFactory();
+        weaponFactory = new WeaponFactory();
+    }
 
-    }       
-        
+    public ICharacter CreateCharacter(string characterType)
+    {
+        return characterFactory.CreateCharacter(characterType);
+    }
 
+    public IWeapon CreateWeapon(string weaponType)
+    {
+        return weaponFactory.CreateWeapon(weaponType);
+    }
 
-    public void Attack()
+    protected void Attack()
     {
 
-    }    
+    }
+
+    
+
+    
+
 }

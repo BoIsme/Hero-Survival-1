@@ -7,16 +7,14 @@ public class InputMoveHero : MonoBehaviour
 
     protected Vector3 heroPos;
 
+    private bool isFacingRight = true;
     public Vector3 HeroPos { get => heroPos; }
 
     private Rigidbody2D rb;
     protected float speedHero = 5f;
-    private FlipManager flipManager;
 
     private void Awake()
     {
-        flipManager = FindObjectOfType<FlipManager>();
-
         if (InputMoveHero.instance != null)
         {
             Debug.Log("Only 1 InputMoveHero instance allowed");
@@ -37,9 +35,17 @@ public class InputMoveHero : MonoBehaviour
         heroPos.y = Input.GetAxis("Vertical");
         heroPos.z = 0;
         transform.parent.position += heroPos * speedHero * Time.deltaTime;
-        if (heroPos.x > 0 && !flipManager.isFacingRight || heroPos.x < 0 && flipManager.isFacingRight)
+        if (heroPos.x > 0 && !isFacingRight || heroPos.x < 0 && isFacingRight)
         {
-            flipManager.FlipX(transform.parent);
+            Flip();
         }
+    }
+
+    private void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 }
